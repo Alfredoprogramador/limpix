@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Crypto from 'expo-crypto';
 import { User } from '../types';
 import { createUser, getUserByEmail } from '../services/database';
 
@@ -25,9 +26,20 @@ export interface RegisterData {
   role: 'client' | 'provider';
 }
 
-// Simple password storage: in a real app, use a proper auth backend.
-// Here we store a hashed representation via a basic salt+hash in AsyncStorage.
+/**
+ * NOTE: This is a local-only demo auth implementation.
+ * In a production app, authentication MUST be handled by a secure backend service
+ * (e.g., Firebase Auth, Supabase, or a custom API). Never store credentials locally
+ * in a production app.
+ *
+ * Passwords are hashed with SHA-256 before storage to avoid plain-text exposure,
+ * but this is NOT a substitute for a proper backend auth system.
+ */
 const PASSWORDS_KEY = '@limpix_passwords';
+
+async function hashPassword(password: string): Promise<string> {
+  return Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, password);
+}
 
 async function getPasswords(): Promise<Record<string, string>> {
   const raw = await AsyncStorage.getItem(PASSWORDS_KEY);
@@ -36,7 +48,7 @@ async function getPasswords(): Promise<Record<string, string>> {
 
 async function savePassword(email: string, password: string): Promise<void> {
   const all = await getPasswords();
-  all[email.toLowerCase()] = password; // In production: hash properly
+  all[email.toLowerCase()] = await hashPassword(password);
   await AsyncStorage.setItem(PASSWORDS_KEY, JSON.stringify(all));
 }
 
@@ -65,7 +77,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!stored) {
       return { success: false, error: 'E-mail não encontrado.' };
     }
-    if (stored !== password) {
+    const hashed = await hashPassword(password);
+    if (stored !== hashed) {
       return { success: false, error: 'Senha incorreta.' };
     }
     const user = await getUserByEmail(email.toLowerCase());
