@@ -51,6 +51,13 @@ export const SERVICES: ServiceInfo[] = [
     color: '#AB47BC',
     description: 'Higienização e reforma de sofás, colchões, cadeiras e estofados',
   },
+  {
+    key: 'montador',
+    label: 'Montador de Móveis',
+    icon: '🪛',
+    color: '#5C8A3C',
+    description: 'Montagem e desmontagem de móveis, armários, estantes e camas',
+  },
 ];
 
 export const SERVICE_MAP: Record<ServiceCategory, ServiceInfo> = Object.fromEntries(

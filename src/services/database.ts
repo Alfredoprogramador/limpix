@@ -208,6 +208,26 @@ async function seedDemoData(db: SQLite.SQLiteDatabase): Promise<void> {
       rating: 4.4,
       reviewCount: 23,
     },
+    {
+      id: 'p7',
+      name: 'Lucas Monteiro',
+      email: 'lucas@limpix.com',
+      phone: '11999990007',
+      role: 'provider',
+      address: 'Rua Clélia, 320',
+      createdAt: new Date().toISOString(),
+      services: ['montador'],
+      description: 'Montador de móveis com 6 anos de experiência. Armários, estantes, camas, guarda-roupas e móveis de escritório.',
+      city: 'São Paulo',
+      neighborhood: 'Lapa',
+      latitude: -23.5274,
+      longitude: -46.7040,
+      whatsapp: '11999990007',
+      available: true,
+      priceRange: 'R$ 80 – R$ 250',
+      rating: 4.7,
+      reviewCount: 31,
+    },
   ];
 
   for (const p of demoProviders) {

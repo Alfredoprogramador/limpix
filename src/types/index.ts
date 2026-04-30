@@ -34,7 +34,8 @@ export type ServiceCategory =
   | 'pedreiro'
   | 'encanador'
   | 'eletricista'
-  | 'estofado';
+  | 'estofado'
+  | 'montador';
 
 // ─── Booking / Agendamento ────────────────────────────────────────────────────
 export type BookingStatus = 'pendente' | 'confirmado' | 'concluido' | 'cancelado';
