@@ -88,7 +88,7 @@ export function LoginScreen() {
         {/* Register links */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>Novo por aqui?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register', { role: 'client' })}>
+          <TouchableOpacity onPress={() => navigation.navigate('ClientRegister')}>
             <Text style={styles.link}>Cadastrar como Cliente</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Register', { role: 'provider' })}>

@@ -73,6 +73,7 @@ export interface Review {
 export type AuthStackParamList = {
   Login: undefined;
   Register: { role?: UserRole };
+  ClientRegister: undefined;
 };
 
 export type ClientTabParamList = {

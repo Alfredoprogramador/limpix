@@ -5,6 +5,7 @@ import { COLORS } from '../constants/colors';
 
 import { LoginScreen } from '../screens/auth/LoginScreen';
 import { RegisterScreen } from '../screens/auth/RegisterScreen';
+import { ClientRegisterScreen } from '../screens/auth/ClientRegisterScreen';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
@@ -17,6 +18,7 @@ export function AuthNavigator() {
       }}
     >
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="ClientRegister" component={ClientRegisterScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );

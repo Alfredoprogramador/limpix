@@ -24,6 +24,7 @@ export interface RegisterData {
   password: string;
   phone: string;
   role: 'client' | 'provider';
+  address?: string;
 }
 
 /**
@@ -101,6 +102,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email: data.email.toLowerCase().trim(),
       phone: data.phone.trim(),
       role: data.role,
+      address: data.address?.trim() || undefined,
       createdAt: new Date().toISOString(),
     };
     await createUser(user);
