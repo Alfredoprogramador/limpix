@@ -16,7 +16,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useAuth } from '../../context/AuthContext';
 import { AuthStackParamList, UserRole } from '../../types';
 import { COLORS } from '../../constants/colors';
-import { createProvider } from '../../services/database';
+import { createProvider, getUserByEmail } from '../../services/database';
 
 type Nav = NativeStackNavigationProp<AuthStackParamList, 'Register'>;
 type Route = RouteProp<AuthStackParamList, 'Register'>;
@@ -70,8 +70,6 @@ export function RegisterScreen() {
 
     // If provider, also create provider profile
     if (role === 'provider' && result.success) {
-      // We get the user from auth context after register — use email to lookup
-      const { getUserByEmail } = await import('../../services/database');
       const user = await getUserByEmail(email.toLowerCase().trim());
       if (user) {
         await createProvider({
