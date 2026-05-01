@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Limpix",
+    "slug": "limpix",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1565C0"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.limpix.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Precisamos da sua localiza\u00e7\u00e3o para mostrar prestadores pr\u00f3ximos.",
+        "NSLocationAlwaysUsageDescription": "Precisamos da sua localiza\u00e7\u00e3o para mostrar prestadores pr\u00f3ximos."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1565C0"
+      },
+      "package": "com.limpix.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-sqlite"
+    ]
+  }
+}
