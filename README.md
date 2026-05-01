@@ -1,6 +1,6 @@
 # Limpix 🏠
 
-**Aplicativo de serviços domésticos** – limpeza, pintura, pedreiro, encanador, eletricista e estofado.
+**Aplicativo de serviços domésticos** – limpeza, pintura, pedreiro, encanador, eletricista, estofado e montador de móveis.
 
 ---
 
@@ -53,6 +53,7 @@
 | 🔧 | Encanador | Instalação e reparo de encanamentos e vazamentos |
 | ⚡ | Eletricista | Instalações elétricas, disjuntores, tomadas e iluminação |
 | 🛋️ | Estofado | Higienização e reforma de sofás, colchões e cadeiras |
+| 🪛 | Montador de Móveis | Montagem e desmontagem de móveis residenciais e comerciais |
 
 ---
 
