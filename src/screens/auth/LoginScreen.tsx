@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../context/AuthContext';
 import { AuthStackParamList } from '../../types';
 import { COLORS } from '../../constants/colors';
+import { isValidEmail, isNotEmpty } from '../../utils/validation';
 
 type Nav = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
 
@@ -28,10 +29,16 @@ export function LoginScreen() {
   const [loading, setLoading] = useState(false);
 
   async function handleLogin() {
-    if (!email.trim() || !password) {
+    if (!isNotEmpty(email) || !isNotEmpty(password)) {
       Alert.alert('Atenção', 'Preencha e-mail e senha.');
       return;
     }
+
+    if (!isValidEmail(email)) {
+      Alert.alert('Atenção', 'Por favor, insira um e-mail válido.');
+      return;
+    }
+
     setLoading(true);
     const result = await login(email.trim(), password);
     setLoading(false);

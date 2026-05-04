@@ -17,6 +17,7 @@ import { COLORS } from '../../constants/colors';
 import { SERVICE_MAP } from '../../constants/services';
 import { createBooking } from '../../services/database';
 import { useAuth } from '../../context/AuthContext';
+import { isValidDate, isFutureDate, isNotEmpty } from '../../utils/validation';
 
 type Nav = NativeStackNavigationProp<ClientStackParamList, 'Booking'>;
 type Route = RouteProp<ClientStackParamList, 'Booking'>;
@@ -48,10 +49,35 @@ export function BookingScreen() {
   const [loading, setLoading] = useState(false);
 
   async function handleConfirm() {
-    if (!date) { Alert.alert('Atenção', 'Escolha uma data.'); return; }
-    if (!time) { Alert.alert('Atenção', 'Escolha um horário.'); return; }
-    if (!address.trim()) { Alert.alert('Atenção', 'Informe o endereço.'); return; }
-    if (!city.trim()) { Alert.alert('Atenção', 'Informe a cidade.'); return; }
+    if (!date) { 
+      Alert.alert('Atenção', 'Escolha uma data.'); 
+      return; 
+    }
+
+    if (!isValidDate(date)) {
+      Alert.alert('Atenção', 'Formato de data inválido. Use AAAA-MM-DD (ex: 2025-06-15)');
+      return;
+    }
+
+    if (!isFutureDate(date)) {
+      Alert.alert('Atenção', 'A data deve ser hoje ou no futuro.');
+      return;
+    }
+
+    if (!time) { 
+      Alert.alert('Atenção', 'Escolha um horário.'); 
+      return; 
+    }
+
+    if (!isNotEmpty(address)) { 
+      Alert.alert('Atenção', 'Informe o endereço.'); 
+      return; 
+    }
+
+    if (!isNotEmpty(city)) { 
+      Alert.alert('Atenção', 'Informe a cidade.'); 
+      return; 
+    }
 
     setLoading(true);
     await createBooking({
