@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // ─── Users Collection ────────────────────────────────────────────
+    match /users/{userId} {
+      // Anyone can read basic user info
+      allow read: if isSignedIn();
+
+      // Only owner can write
+      allow create, update: if isOwner(userId);
+
+      // Only owner can delete
+      allow delete: if isOwner(userId);
+    }
+
+    // ─── Providers Collection ────────────────────────────────────────
+    match /providers/{providerId} {
+      // Anyone can read providers (for search)
+      allow read: if isSignedIn();
+
+      // Only owner can create/update their provider profile
+      allow create, update: if isOwner(providerId);
+
+      // Only owner can delete
+      allow delete: if isOwner(providerId);
+    }
+
+    // ─── Bookings Collection ─────────────────────────────────────────
+    match /bookings/{bookingId} {
+      // Read: only client or provider involved
+      allow read: if isSignedIn() && (
+        request.auth.uid == resource.data.clientId ||
+        request.auth.uid == resource.data.providerId
+      );
+
+      // Create: only authenticated users
+      allow create: if isSignedIn() && 
+        request.auth.uid == request.resource.data.clientId;
+
+      // Update: only client or provider can update status
+      allow update: if isSignedIn() && (
+        request.auth.uid == resource.data.clientId ||
+        request.auth.uid == resource.data.providerId
+      );
+
+      // Delete: only the client who created it
+      allow delete: if isOwner(resource.data.clientId);
+    }
+
+    // ─── Reviews Collection ──────────────────────────────────────────
+    match /reviews/{reviewId} {
+      // Anyone can read reviews
+      allow read: if isSignedIn();
+
+      // Only client who booked can create review
+      allow create: if isSignedIn() && 
+        request.auth.uid == request.resource.data.clientId;
+
+      // Only owner can update/delete their review
+      allow update, delete: if isOwner(resource.data.clientId);
+    }
+  }
+}

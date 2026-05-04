@@ -8,7 +8,7 @@
 
 ### Para Clientes 👤
 - **Cadastro e login** com perfil de cliente
-- **Busca por categoria** de serviço: limpeza, pintura, pedreiro, encanador, eletricista, estofado
+- **Busca por categoria** de serviço: limpeza, pintura, pedreiro, encanador, eletricista, estofado, montador 
 - **Perfil do prestador** com avaliações, serviços e localização
 - **Agendamento** com escolha de data, horário, endereço e observações
 - **Histórico de agendamentos** com filtros por status

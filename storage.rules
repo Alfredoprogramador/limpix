@@ -1,0 +1,59 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function isUnder5MB() {
+      return request.resource.size < 5 * 1024 * 1024;
+    }
+
+    // ─── User Files ──────────────────────────────────────────────────
+    match /users/{userId}/{allPaths=**} {
+      // Read: public for profile pictures, private for documents
+      allow read: if isSignedIn();
+
+      // Write: only owner, must be image, under 5MB
+      allow write: if isOwner(userId) && 
+                      isImage() && 
+                      isUnder5MB();
+
+      // Delete: only owner
+      allow delete: if isOwner(userId);
+    }
+
+    // ─── Provider Files ──────────────────────────────────────────────
+    match /providers/{providerId}/{allPaths=**} {
+      // Read: public (portfolio images)
+      allow read: if isSignedIn();
+
+      // Write: only owner, must be image, under 5MB
+      allow write: if isOwner(providerId) && 
+                      isImage() && 
+                      isUnder5MB();
+
+      // Delete: only owner
+      allow delete: if isOwner(providerId);
+    }
+
+    // ─── Public Files (if needed) ────────────────────────────────────
+    match /public/{allPaths=**} {
+      // Anyone can read
+      allow read: if true;
+
+      // No one can write (only via admin)
+      allow write: if false;
+    }
+  }
+}
